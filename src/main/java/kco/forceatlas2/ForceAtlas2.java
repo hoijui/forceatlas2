@@ -641,9 +641,8 @@ public class ForceAtlas2 implements Layout {
                     "ForceAtlas2.threads.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.threads.desc"),
                     "getThreadsCount", "setThreadsCount"));
-
-        } catch (Exception e) {
-            Exceptions.printStackTrace(e);
+        } catch (NoSuchMethodException exc) {
+            Exceptions.printStackTrace(exc);
         }
 
         return properties.toArray(new LayoutProperty[0]);
