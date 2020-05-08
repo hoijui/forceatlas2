@@ -49,13 +49,12 @@ package kco.forceatlas2;
  * @author Mathieu Jacomy
  */
 public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
-    //Data
+
     private double dx;
     private double dy;
     private double old_dx;
     private double old_dy;
     private double mass = 1;
-
 
     public double getDx() {
         return dx;
@@ -78,7 +77,6 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     public void setDz(double dz) {
-
     }
 
     public double getOld_dx() {
@@ -102,7 +100,6 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     public void setOld_dz(double old_dz) {
-
     }
 
     public double getMass() {

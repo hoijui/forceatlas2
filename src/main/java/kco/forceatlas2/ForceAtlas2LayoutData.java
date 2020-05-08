@@ -52,7 +52,6 @@ import org.gephi.graph.spi.LayoutData;
  */
 public interface ForceAtlas2LayoutData extends LayoutData {
 
-
     double getDx();
 
     void setDx(double dx);
