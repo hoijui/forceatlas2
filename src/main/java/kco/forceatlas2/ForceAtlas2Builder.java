@@ -58,7 +58,7 @@ import javax.swing.*;
 @ServiceProvider(service = LayoutBuilder.class)
 public class ForceAtlas2Builder implements LayoutBuilder {
 
-    private ForceAtlas2UI ui = new ForceAtlas2UI();
+    private final ForceAtlas2UI ui = new ForceAtlas2UI();
 
     @Override
     public String getName() {
@@ -72,11 +72,10 @@ public class ForceAtlas2Builder implements LayoutBuilder {
 
     @Override
     public ForceAtlas2 buildLayout() {
-        ForceAtlas2 layout = new ForceAtlas2(this, true, false);
-        return layout;
+        return new ForceAtlas2(this, true, false);
     }
 
-    private class ForceAtlas2UI implements LayoutUI {
+    private static class ForceAtlas2UI implements LayoutUI {
 
         @Override
         public String getDescription() {

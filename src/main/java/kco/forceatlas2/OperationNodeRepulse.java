@@ -50,9 +50,9 @@ import org.gephi.layout.plugin.forceAtlas2.Operation;
  */
 public class OperationNodeRepulse extends Operation {
 
-    private Node n;
-    private ForceFactory.RepulsionForce f;
-    private double coefficient;
+    private final Node n;
+    private final ForceFactory.RepulsionForce f;
+    private final double coefficient;
 
     public OperationNodeRepulse(Node n, ForceFactory.RepulsionForce f, double coefficient) {
         this.n = n;

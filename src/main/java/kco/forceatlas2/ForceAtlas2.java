@@ -169,7 +169,7 @@ public class ForceAtlas2 implements Layout {
                     waitForFutures(futures);
                     List<Region> newRegions = new ArrayList<>();
                     for (Region r : regions) {
-                        newRegions.addAll(r.getSubregions());
+                        newRegions.addAll(r.getSubRegions());
                     }
                     regions = newRegions;
                 }
@@ -194,7 +194,7 @@ public class ForceAtlas2 implements Layout {
                     waitForFutures(futures);
                     List<Region> newRegions = new ArrayList<>();
                     for (Region r : regions) {
-                        newRegions.addAll(r.getSubregions());
+                        newRegions.addAll(r.getSubRegions());
                     }
                     regions = newRegions;
                 }
@@ -422,11 +422,7 @@ public class ForceAtlas2 implements Layout {
 
         // Performance
         setJitterTolerance(1d);
-        if (nodesCount >= 1000) {
-            setBarnesHutOptimize(true);
-        } else {
-            setBarnesHutOptimize(false);
-        }
+        setBarnesHutOptimize(nodesCount >= 1000);
         setBarnesHutTheta(1.2);
         setThreadsCount(Runtime.getRuntime().availableProcessors());
     }
@@ -551,16 +547,16 @@ public class ForceAtlas2 implements Layout {
     @Override
     public LayoutProperty[] getProperties() {
         List<LayoutProperty> properties = new ArrayList<>();
-        final String FORCEATLAS2_TUNING = NbBundle.getMessage(getClass(), "ForceAtlas2.tuning");
-        final String FORCEATLAS2_BEHAVIOR = NbBundle.getMessage(getClass(), "ForceAtlas2.behavior");
-        final String FORCEATLAS2_PERFORMANCE = NbBundle.getMessage(getClass(), "ForceAtlas2.performance");
-        final String FORCEATLAS2_THREADS = NbBundle.getMessage(getClass(), "ForceAtlas2.threads");
+        final String FORCE_ATLAS2_TUNING = NbBundle.getMessage(getClass(), "ForceAtlas2.tuning");
+        final String FORCE_ATLAS2_BEHAVIOR = NbBundle.getMessage(getClass(), "ForceAtlas2.behavior");
+        final String FORCE_ATLAS2_PERFORMANCE = NbBundle.getMessage(getClass(), "ForceAtlas2.performance");
+        final String FORCE_ATLAS2_THREADS = NbBundle.getMessage(getClass(), "ForceAtlas2.threads");
 
         try {
             properties.add(LayoutProperty.createProperty(
                     this, Double.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.scalingRatio.name"),
-                    FORCEATLAS2_TUNING,
+                    FORCE_ATLAS2_TUNING,
                     "ForceAtlas2.scalingRatio.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.scalingRatio.desc"),
                     "getScalingRatio", "setScalingRatio"));
@@ -568,7 +564,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Boolean.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.strongGravityMode.name"),
-                    FORCEATLAS2_TUNING,
+                    FORCE_ATLAS2_TUNING,
                     "ForceAtlas2.strongGravityMode.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.strongGravityMode.desc"),
                     "isStrongGravityMode", "setStrongGravityMode"));
@@ -576,7 +572,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Double.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.gravity.name"),
-                    FORCEATLAS2_TUNING,
+                    FORCE_ATLAS2_TUNING,
                     "ForceAtlas2.gravity.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.gravity.desc"),
                     "getGravity", "setGravity"));
@@ -584,7 +580,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Boolean.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.distributedAttraction.name"),
-                    FORCEATLAS2_BEHAVIOR,
+                    FORCE_ATLAS2_BEHAVIOR,
                     "ForceAtlas2.distributedAttraction.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.distributedAttraction.desc"),
                     "isOutboundAttractionDistribution", "setOutboundAttractionDistribution"));
@@ -592,7 +588,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Boolean.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.linLogMode.name"),
-                    FORCEATLAS2_BEHAVIOR,
+                    FORCE_ATLAS2_BEHAVIOR,
                     "ForceAtlas2.linLogMode.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.linLogMode.desc"),
                     "isLinLogMode", "setLinLogMode"));
@@ -600,7 +596,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Boolean.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.adjustSizes.name"),
-                    FORCEATLAS2_BEHAVIOR,
+                    FORCE_ATLAS2_BEHAVIOR,
                     "ForceAtlas2.adjustSizes.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.adjustSizes.desc"),
                     "isAdjustSizes", "setAdjustSizes"));
@@ -608,7 +604,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Double.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.edgeWeightInfluence.name"),
-                    FORCEATLAS2_BEHAVIOR,
+                    FORCE_ATLAS2_BEHAVIOR,
                     "ForceAtlas2.edgeWeightInfluence.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.edgeWeightInfluence.desc"),
                     "getEdgeWeightInfluence", "setEdgeWeightInfluence"));
@@ -616,7 +612,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Double.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.jitterTolerance.name"),
-                    FORCEATLAS2_PERFORMANCE,
+                    FORCE_ATLAS2_PERFORMANCE,
                     "ForceAtlas2.jitterTolerance.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.jitterTolerance.desc"),
                     "getJitterTolerance", "setJitterTolerance"));
@@ -624,7 +620,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Boolean.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.barnesHutOptimization.name"),
-                    FORCEATLAS2_PERFORMANCE,
+                    FORCE_ATLAS2_PERFORMANCE,
                     "ForceAtlas2.barnesHutOptimization.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.barnesHutOptimization.desc"),
                     "isBarnesHutOptimize", "setBarnesHutOptimize"));
@@ -632,7 +628,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Double.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.barnesHutTheta.name"),
-                    FORCEATLAS2_PERFORMANCE,
+                    FORCE_ATLAS2_PERFORMANCE,
                     "ForceAtlas2.barnesHutTheta.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.barnesHutTheta.desc"),
                     "getBarnesHutTheta", "setBarnesHutTheta"));
@@ -640,7 +636,7 @@ public class ForceAtlas2 implements Layout {
             properties.add(LayoutProperty.createProperty(
                     this, Integer.class,
                     NbBundle.getMessage(getClass(), "ForceAtlas2.threads.name"),
-                    FORCEATLAS2_THREADS,
+                    FORCE_ATLAS2_THREADS,
                     "ForceAtlas2.threads.name",
                     NbBundle.getMessage(getClass(), "ForceAtlas2.threads.desc"),
                     "getThreadsCount", "setThreadsCount"));
@@ -677,7 +673,7 @@ public class ForceAtlas2 implements Layout {
     }
 
     private static class SpeedTask implements Callable<Double[]> {
-        private Collection<Node> nodes;
+        private final Collection<Node> nodes;
 
         private SpeedTask(Collection<Node> nodes) {
             this.nodes = nodes;
@@ -700,12 +696,10 @@ public class ForceAtlas2 implements Layout {
     }
 
     private static class InitLayoutTask implements Runnable {
-        private Collection<Node> nodes;
-        private Graph graph;
+        private final Collection<Node> nodes;
 
         public InitLayoutTask(Collection<Node> nodes, Graph graph) {
             this.nodes = nodes;
-            this.graph = graph;
         }
 
         public void run() {
@@ -724,10 +718,10 @@ public class ForceAtlas2 implements Layout {
 
     private static class ApplyForcesTask implements Callable<Double> {
 
-        private Collection<Node> nodes;
-        private boolean adjustSizes;
-        private double speed;
-        private boolean useAltSpeed;
+        private final Collection<Node> nodes;
+        private final boolean adjustSizes;
+        private final double speed;
+        private final boolean useAltSpeed;
 
         private ApplyForcesTask(List<Node> nodes, boolean adjustSizes, double speed, boolean useAltSpeed) {
             this.nodes = nodes;
@@ -794,8 +788,8 @@ public class ForceAtlas2 implements Layout {
     }
 
     private static class BarnesHutUpdateCenterTask implements Runnable {
-        private Collection<Region> regions;
-        private boolean recursive;
+        private final Collection<Region> regions;
+        private final boolean recursive;
 
         private BarnesHutUpdateCenterTask(Collection<Region> regions, boolean recursive) {
             this.regions = regions;
@@ -810,8 +804,8 @@ public class ForceAtlas2 implements Layout {
     }
 
     private static class BarnesHutBuildSubRegionTask implements Runnable {
-        private Collection<Region> regions;
-        private boolean recursive;
+        private final Collection<Region> regions;
+        private final boolean recursive;
 
         private BarnesHutBuildSubRegionTask(Collection<Region> regions, boolean recursive) {
             this.regions = regions;
@@ -827,11 +821,11 @@ public class ForceAtlas2 implements Layout {
 
 
     private static class AttractionTask implements Runnable {
-        private Collection<Edge> edges;
-        private ForceFactory.AttractionForce Attraction;
-        private boolean isDynamicWeight;
-        private Interval interval;
-        private double edgeWeightInfluence;
+        private final Collection<Edge> edges;
+        private final ForceFactory.AttractionForce Attraction;
+        private final boolean isDynamicWeight;
+        private final Interval interval;
+        private final double edgeWeightInfluence;
 
         private AttractionTask(Collection<Edge> edges, ForceFactory.AttractionForce attraction, boolean isDynamicWeight, Interval interval, double edgeWeightInfluence) {
             this.edges = edges;

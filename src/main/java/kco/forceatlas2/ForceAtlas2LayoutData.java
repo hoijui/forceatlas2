@@ -52,38 +52,38 @@ import org.gephi.graph.spi.LayoutData;
 public interface ForceAtlas2LayoutData extends LayoutData {
 
 
-    public double getDx();
+    double getDx();
 
-    public void setDx(double dx);
+    void setDx(double dx);
 
-    public double getDy();
+    double getDy();
 
-    public void setDy(double dy);
+    void setDy(double dy);
 
-    public double getDz();
+    double getDz();
 
-    public void setDz(double dz);
+    void setDz(double dz);
 
-    public double getOld_dx();
+    double getOld_dx();
 
-    public void setOld_dx(double old_dx);
+    void setOld_dx(double old_dx);
 
-    public double getOld_dy();
+    double getOld_dy();
 
-    public void setOld_dy(double old_dy);
+    void setOld_dy(double old_dy);
 
-    public double getOld_dz();
+    double getOld_dz();
 
-    public void setOld_dz(double old_dz);
+    void setOld_dz(double old_dz);
 
-    public double getMass();
+    double getMass();
 
-    public void setMass(double mass);
+    void setMass(double mass);
 
     // synchronized augment functions, only used for updating attraction force
-    public void augmentDx(double ddx);
+    void augmentDx(double ddx);
 
-    public void augmentDy(double ddy);
+    void augmentDy(double ddy);
 
-    public void augmentDz(double ddz);
+    void augmentDz(double ddz);
 }

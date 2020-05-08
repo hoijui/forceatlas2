@@ -58,7 +58,7 @@ import java.util.*;
 
 public class Main {
 
-    private static Map<String, Arg> argsMap = new LinkedHashMap<>();
+    private static final Map<String, Arg> argsMap = new LinkedHashMap<>();
 
     private static void writeOutput(Graph g, boolean is3d, Set<String> formats, String output) {
         try {
@@ -100,7 +100,7 @@ public class Main {
     }
 
     private static String getArg(String flag) {
-        Arg a = argsMap.get("--" + flag.toLowerCase());
+        final Arg a = argsMap.get("--" + flag.toLowerCase());
         return a != null ? a.value : null;
     }
 
@@ -136,8 +136,7 @@ public class Main {
                 System.err.println("Unknown argument " + args[i]);
                 System.exit(1);
             }
-            String value = a.not_boolean ? args[++i] : "true";
-            a.value = value;
+            a.value = a.not_boolean ? args[++i] : "true";
         }
 
         int nsteps = 0;
@@ -177,13 +176,15 @@ public class Main {
             System.err.println("Please supply an output file with --output 'path/to/output.txt'.");
             System.exit(1);
         }
-        
-        if (getArg("nsteps") != null) {
-            nsteps = Integer.parseInt(getArg("nsteps"));
+
+        final String nStepsStr = getArg("nsteps");
+        if (nStepsStr != null) {
+            nsteps = Integer.parseInt(nStepsStr);
         }
 
-        if (getArg("targetChangePerNode") != null) {
-            targetChangePerNode = Double.parseDouble(getArg("targetChangePerNode"));
+        final String targetChangePerNodeStr = getArg("targetChangePerNode");
+        if (targetChangePerNodeStr != null) {
+            targetChangePerNode = Double.parseDouble(targetChangePerNodeStr);
             targetSteps = Integer.parseInt(getArg("targetSteps"));
         }
 
@@ -197,20 +198,24 @@ public class Main {
             System.exit(1);
         }
 
+        final String barnesHutSplitsStr = getArg("barnesHutSplits");
         if (getArg("barnesHutSplits") != null) {
             barnesHutSplits = Integer.parseInt(getArg("barnesHutSplits"));
         }
-        
+
+        final String nthreadsStr = getArg("nthreads");
         if (getArg("nthreads") != null) {
             threadCount = Integer.parseInt(getArg("nthreads"));
         }
 
+        final String barnesHutThetaStr = getArg("barnesHutTheta");
         if (getArg("barnesHutTheta") != null) {
             barnesHutTheta = Double.parseDouble(getArg("barnesHutTheta"));
         }
-        
-        if (getArg("jitterTolerance") != null) {
-            jitterTolerance = Double.parseDouble(getArg("jitterTolerance"));
+
+        final String jitterToleranceStr = getArg("jitterTolerance");
+        if (jitterToleranceStr != null) {
+            jitterTolerance = Double.parseDouble(jitterToleranceStr);
         }
         
         if (getArg("linLogMode") != null) {

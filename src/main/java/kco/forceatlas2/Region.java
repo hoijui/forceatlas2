@@ -60,8 +60,8 @@ public class Region {
     private double massCenterY;
     private double massCenterZ;
     private double size;
-    private List<Node> nodes;
-    private List<Region> subregions = new ArrayList<>();
+    private final List<Node> nodes;
+    private final List<Region> subRegions = new ArrayList<>();
     private final boolean is3d;
 
     public Region(Node[] nodes, boolean is3d) {
@@ -109,8 +109,8 @@ public class Region {
     public void updateAllMassAndGeometry(boolean recursive) {
         this.updateMassAndGeometry();
         if (recursive && nodes.size() > 1) {
-            for (Region subregion : subregions) {
-                subregion.updateAllMassAndGeometry(recursive);
+            for (Region subRegion : subRegions) {
+                subRegion.updateAllMassAndGeometry(recursive);
             }
         }
     }
@@ -134,14 +134,14 @@ public class Region {
     private void addSubRegions(ArrayList<Node> nodesToAdd) {
         if (nodesToAdd.size() > 0) {
             if (nodesToAdd.size() < nodes.size()) {
-                Region subregion = new Region(nodesToAdd, is3d);
-                subregions.add(subregion);
+                Region subRegion = new Region(nodesToAdd, is3d);
+                subRegions.add(subRegion);
             } else {
                 for (Node n : nodesToAdd) {
                     ArrayList<Node> oneNodeList = new ArrayList<>();
                     oneNodeList.add(n);
-                    Region subregion = new Region(oneNodeList, is3d);
-                    subregions.add(subregion);
+                    Region subRegion = new Region(oneNodeList, is3d);
+                    subRegions.add(subRegion);
                 }
             }
         }
@@ -184,8 +184,8 @@ public class Region {
             addSubRegions(toprightNodes);
 
             if (recursive) {
-                for (Region subregion : subregions) {
-                    subregion.buildSubRegions(recursive);
+                for (Region subRegion : subRegions) {
+                    subRegion.buildSubRegions(recursive);
                 }
             }
         }
@@ -220,8 +220,8 @@ public class Region {
             addSubRegions(partitionZ(toprightNodes));
 
             if (recursive) {
-                for (Region subregion : subregions) {
-                    subregion.buildSubRegions(recursive);
+                for (Region subRegion : subRegions) {
+                    subRegion.buildSubRegions(recursive);
                 }
             }
         }
@@ -236,15 +236,15 @@ public class Region {
             if (distance * theta > size) {
                 Force.apply(n, this);
             } else {
-                for (Region subregion : subregions) {
-                    subregion.applyForce(n, Force, theta);
+                for (Region subRegion : subRegions) {
+                    subRegion.applyForce(n, Force, theta);
                 }
             }
         }
     }
 
-    public List<Region> getSubregions() {
-        return subregions;
+    public List<Region> getSubRegions() {
+        return subRegions;
     }
 
     public double getMass() {
