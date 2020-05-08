@@ -176,8 +176,8 @@ public class ForceAtlas2 implements Layout {
 
                 List<Future> futures = new ArrayList<>();
                 for (int t = currentThreadCount; t > 0; t--) {
-                    int from = (int) Math.floor(regions.size() * (t - 1) / currentThreadCount);
-                    int to = (int) Math.floor(regions.size() * t / currentThreadCount);
+                    int from = (int) Math.floor((double) regions.size() * (t - 1) / currentThreadCount);
+                    int to = (int) Math.floor((double) regions.size() * t / currentThreadCount);
                     futures.add(pool.submit(new BarnesHutBuildSubRegionTask(regions.subList(from, to), true)));
                 }
                 waitForFutures(futures);
@@ -200,8 +200,8 @@ public class ForceAtlas2 implements Layout {
                 }
                 List<Future> futures = new ArrayList<>();
                 for (int t = currentThreadCount; t > 0; t--) {
-                    int from = (int) Math.floor(regions.size() * (t - 1) / currentThreadCount);
-                    int to = (int) Math.floor(regions.size() * t / currentThreadCount);
+                    int from = (int) Math.floor((double) regions.size() * (t - 1) / currentThreadCount);
+                    int to = (int) Math.floor((double) regions.size() * t / currentThreadCount);
                     futures.add(pool.submit(new BarnesHutUpdateCenterTask(regions.subList(from, to), true)));
                 }
                 waitForFutures(futures);
@@ -217,8 +217,8 @@ public class ForceAtlas2 implements Layout {
 
         List<Future> futures = new ArrayList<>();
         for (int t = currentThreadCount; t > 0; t--) {
-            int from = (int) Math.floor(nodes.length * (t - 1) / currentThreadCount);
-            int to = (int) Math.floor(nodes.length * t / currentThreadCount);
+            int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
+            int to = (int) Math.floor((double) nodes.length * t / currentThreadCount);
             futures.add(pool.submit(new NodesThread(nodes, from, to, isBarnesHutOptimize(), getBarnesHutTheta(), getGravity(), (isStrongGravityMode()) ? (ForceFactory.builder.getStrongGravity(getScalingRatio())) : (Repulsion), getScalingRatio(), rootRegion, Repulsion)));
         }
         waitForFutures(futures);
@@ -244,8 +244,8 @@ public class ForceAtlas2 implements Layout {
         boolean adjustSizes = isAdjustSizes();
         List<Node> nodesList = Arrays.asList(nodes);
         for (int t = currentThreadCount; t > 0; t--) {
-            int from = (int) Math.floor(nodes.length * (t - 1) / currentThreadCount);
-            int to = (int) Math.floor(nodes.length * t / currentThreadCount);
+            int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
+            int to = (int) Math.floor((double) nodes.length * t / currentThreadCount);
             futures.add(pool.submit(new ApplyForcesTask(nodesList.subList(from, to), adjustSizes, speed, useAltSpeed)));
         }
 
@@ -269,8 +269,8 @@ public class ForceAtlas2 implements Layout {
         List<Edge> edgeList = Arrays.asList(edges);
         final Double edgeWeightInfluence = getEdgeWeightInfluence();
         for (int t = taskCount; t > 0; t--) {
-            int from = (int) Math.floor(edges.length * (t - 1) / taskCount);
-            int to = (int) Math.floor(edges.length * t / taskCount);
+            int from = (int) Math.floor((double) edges.length * (t - 1) / taskCount);
+            int to = (int) Math.floor((double) edges.length * t / taskCount);
             final List<Edge> subList = edgeList.subList(from, to);
             Runnable task = new AttractionTask(subList, Attraction, isDynamicWeight, interval, edgeWeightInfluence);
             futures.add(pool.submit(task));
@@ -284,8 +284,8 @@ public class ForceAtlas2 implements Layout {
         List<Future<Double[]>> futures = new ArrayList<>();
         List<Node> nodesList = Arrays.asList(nodes);
         for (int t = currentThreadCount; t > 0; t--) {
-            int from = (int) Math.floor(nodes.length * (t - 1) / currentThreadCount);
-            int to = (int) Math.floor(nodes.length * t / currentThreadCount);
+            int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
+            int to = (int) Math.floor((double) nodes.length * t / currentThreadCount);
             futures.add(pool.submit(new SpeedTask(nodesList.subList(from, to))));
         }
         double totalSwinging = 0d;  // How much irregular movement
@@ -342,8 +342,8 @@ public class ForceAtlas2 implements Layout {
         List<Future> futures = new ArrayList<>();
         List<Node> nodesList = Arrays.asList(nodes);
         for (int t = currentThreadCount; t > 0; t--) {
-            int from = (int) Math.floor(nodes.length * (t - 1) / currentThreadCount);
-            int to = (int) Math.floor(nodes.length * t / currentThreadCount);
+            int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
+            int to = (int) Math.floor((double) nodes.length * t / currentThreadCount);
             futures.add(pool.submit(new InitLayoutTask(nodesList.subList(from, to), graph)));
         }
         waitForFutures(futures);
