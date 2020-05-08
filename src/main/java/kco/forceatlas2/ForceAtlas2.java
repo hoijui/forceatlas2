@@ -60,6 +60,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -301,8 +302,8 @@ public class ForceAtlas2 implements Layout {
                 totalSwinging += result[0];
                 totalEffectiveTraction += result[1];
             }
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (InterruptedException | ExecutionException exc) {
+            exc.printStackTrace();
         }
 
         // We want that swingingMovement < tolerance * convergenceMovement
