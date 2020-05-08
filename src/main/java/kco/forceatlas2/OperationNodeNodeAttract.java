@@ -56,7 +56,12 @@ public class OperationNodeNodeAttract extends Operation {
     private final ForceFactory.AttractionForce f;
     private final double coefficient;
 
-    public OperationNodeNodeAttract(Node n1, Node n2, ForceFactory.AttractionForce f, double coefficient) {
+    public OperationNodeNodeAttract(
+            final Node n1,
+            final Node n2,
+            final ForceFactory.AttractionForce f,
+            final double coefficient)
+    {
         this.n1 = n1;
         this.n2 = n2;
         this.f = f;

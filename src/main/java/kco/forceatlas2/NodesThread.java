@@ -62,7 +62,18 @@ public class NodesThread implements Runnable {
     private final ForceFactory.RepulsionForce GravityForce;
     private final double scaling;
 
-    public NodesThread(Node[] nodes, int from, int to, boolean barnesHutOptimize, double barnesHutTheta, double gravity, ForceFactory.RepulsionForce GravityForce, double scaling, Region rootRegion, ForceFactory.RepulsionForce Repulsion) {
+    public NodesThread(
+            final Node[] nodes,
+            final int from,
+            final int to,
+            final boolean barnesHutOptimize,
+            final double barnesHutTheta,
+            final double gravity,
+            final ForceFactory.RepulsionForce GravityForce,
+            final double scaling,
+            final Region rootRegion,
+            final ForceFactory.RepulsionForce Repulsion)
+    {
         this.nodes = nodes;
         this.from = from;
         this.to = to;

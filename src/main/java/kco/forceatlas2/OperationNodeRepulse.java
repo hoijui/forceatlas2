@@ -55,7 +55,11 @@ public class OperationNodeRepulse extends Operation {
     private final ForceFactory.RepulsionForce f;
     private final double coefficient;
 
-    public OperationNodeRepulse(Node n, ForceFactory.RepulsionForce f, double coefficient) {
+    public OperationNodeRepulse(
+            final Node n,
+            final ForceFactory.RepulsionForce f,
+            final double coefficient)
+    {
         this.n = n;
         this.f = f;
         this.coefficient = coefficient;

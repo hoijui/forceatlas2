@@ -59,7 +59,7 @@ public class ForceAtlas2LayoutData3d extends ForceAtlas2LayoutData2d {
     }
 
     @Override
-    public void setDz(double dz) {
+    public void setDz(final double dz) {
         this.dz = dz;
     }
 
@@ -69,12 +69,12 @@ public class ForceAtlas2LayoutData3d extends ForceAtlas2LayoutData2d {
     }
 
     @Override
-    public void setOld_dz(double old_dz) {
+    public void setOld_dz(final double old_dz) {
         this.old_dz = old_dz;
     }
 
     @Override
-    public synchronized void augmentDz(double ddz) {
+    public synchronized void augmentDz(final double ddz) {
         this.dz += ddz;
     }
 }

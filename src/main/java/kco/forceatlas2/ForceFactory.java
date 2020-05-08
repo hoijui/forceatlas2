@@ -58,7 +58,7 @@ public class ForceFactory {
     private ForceFactory() {
     }
 
-    public RepulsionForce buildRepulsion(boolean adjustBySize, double coefficient) {
+    public RepulsionForce buildRepulsion(final boolean adjustBySize, final double coefficient) {
         if (adjustBySize) {
             return new linRepulsion_antiCollision(coefficient);
         } else {
@@ -66,11 +66,16 @@ public class ForceFactory {
         }
     }
 
-    public RepulsionForce getStrongGravity(double coefficient) {
+    public RepulsionForce getStrongGravity(final double coefficient) {
         return new strongGravity(coefficient);
     }
 
-    public AttractionForce buildAttraction(boolean logAttraction, boolean distributedAttraction, boolean adjustBySize, double coefficient) {
+    public AttractionForce buildAttraction(
+            final boolean logAttraction,
+            final boolean distributedAttraction,
+            final boolean adjustBySize,
+            final double coefficient)
+    {
         if (adjustBySize) {
             if (logAttraction) {
                 if (distributedAttraction) {
@@ -104,18 +109,48 @@ public class ForceFactory {
 
     public static abstract class AttractionForce {
 
-        public abstract void apply(Node n1, Node n2, double e); // Model for node-node attraction (e is for edge weight if needed)
+        /**
+         * Model for node-node attraction.
+         *
+         * @param n1
+         * @param n2
+         * @param e edge weight if needed
+         */
+        public abstract void apply(Node n1, Node n2, double e);
     }
 
     public static abstract class RepulsionForce {
 
-        public abstract void apply(Node n1, Node n2);           // Model for node-node repulsion
+        /**
+         * Model for node-node repulsion
+         * @param n1
+         * @param n2
+         */
+        public abstract void apply(Node n1, Node n2);
 
-        public abstract void apply(Node n, Region r);           // Model for Barnes Hut approximation
+        /**
+         * Model for Barnes Hut approximation.
+         *
+         * @param n
+         * @param r
+         */
+        public abstract void apply(Node n, Region r);
 
-        public abstract void apply(Node n, double g);           // Model for gravitation (anti-repulsion)
+        /**
+         * Model for gravitation (anti-repulsion).
+         *
+         * @param n the node to apply the gravitation force on
+         * @param g the gravitation force/strength to apply ot the node
+         */
+        public abstract void apply(Node n, double g);
 
-        public abstract void apply_BH(Node n, Node o);             // Model for node-node repulsion in quadtree (BH), do not update both n and o
+        /**
+         * Model for node-node repulsion in quadtree (BH), do not update both n and o.
+         *
+         * @param n
+         * @param o
+         */
+        public abstract void apply_BH(Node n, Node o);
     }
 
     /*
@@ -125,25 +160,25 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public linRepulsion(double c) {
+        public linRepulsion(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
 
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * n1Layout.getMass() * n2Layout.getMass() / distance / distance;
+                final double factor = coefficient * n1Layout.getMass() * n2Layout.getMass() / distance / distance;
 
                 n1Layout.setDx(n1Layout.getDx() + xDist * factor);
                 n1Layout.setDy(n1Layout.getDy() + yDist * factor);
@@ -156,18 +191,18 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply(Node n, Region r) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
+        public void apply(final Node n, final Region r) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
 
             // Get the distance
-            double xDist = n.x() - r.getMassCenterX();
-            double yDist = n.y() - r.getMassCenterY();
-            double zDist = n.z() - r.getMassCenterZ();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n.x() - r.getMassCenterX();
+            final double yDist = n.y() - r.getMassCenterY();
+            final double zDist = n.z() - r.getMassCenterZ();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * r.getMass() / distance / distance;
+                final double factor = coefficient * nLayout.getMass() * r.getMass() / distance / distance;
 
                 nLayout.setDx(nLayout.getDx() + xDist * factor);
                 nLayout.setDy(nLayout.getDy() + yDist * factor);
@@ -176,18 +211,18 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply(Node n, double g) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
+        public void apply(final Node n, final double g) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
 
             // Get the distance
-            double xDist = n.x();
-            double yDist = n.y();
-            double zDist = n.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n.x();
+            final double yDist = n.y();
+            final double zDist = n.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * g / distance;
+                final double factor = coefficient * nLayout.getMass() * g / distance;
 
                 nLayout.setDx(nLayout.getDx() - xDist * factor);
                 nLayout.setDy(nLayout.getDy() - yDist * factor);
@@ -196,19 +231,19 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply_BH(Node n, Node o) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
-            ForceAtlas2LayoutData oLayout = o.getLayoutData();
+        public void apply_BH(final Node n, final Node o) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
+            final ForceAtlas2LayoutData oLayout = o.getLayoutData();
 
             // Get the distance
-            double xDist = n.x() - o.x();
-            double yDist = n.y() - o.y();
-            double zDist = n.z() - o.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n.x() - o.x();
+            final double yDist = n.y() - o.y();
+            final double zDist = n.z() - o.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * oLayout.getMass() / distance / distance;
+                final double factor = coefficient * nLayout.getMass() * oLayout.getMass() / distance / distance;
 
                 nLayout.setDx(nLayout.getDx() + xDist * factor);
                 nLayout.setDy(nLayout.getDy() + yDist * factor);
@@ -224,24 +259,24 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public linRepulsion_antiCollision(double c) {
+        public linRepulsion_antiCollision(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * n1Layout.getMass() * n2Layout.getMass() / distance / distance;
+                final double factor = coefficient * n1Layout.getMass() * n2Layout.getMass() / distance / distance;
 
                 n1Layout.setDx(n1Layout.getDx() + xDist * factor);
                 n1Layout.setDy(n1Layout.getDy() + yDist * factor);
@@ -252,7 +287,7 @@ public class ForceFactory {
                 n2Layout.setDz(n2Layout.getDz() - zDist * factor);
 
             } else if (distance < 0) {
-                double factor = 100 * coefficient * n1Layout.getMass() * n2Layout.getMass();
+                final double factor = 100 * coefficient * n1Layout.getMass() * n2Layout.getMass();
 
                 n1Layout.setDx(n1Layout.getDx() + xDist * factor);
                 n1Layout.setDy(n1Layout.getDy() + yDist * factor);
@@ -265,24 +300,24 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply(Node n, Region r) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
+        public void apply(final Node n, final Region r) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
 
             // Get the distance
-            double xDist = n.x() - r.getMassCenterX();
-            double yDist = n.y() - r.getMassCenterY();
-            double zDist = n.z() - r.getMassCenterZ();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n.x() - r.getMassCenterX();
+            final double yDist = n.y() - r.getMassCenterY();
+            final double zDist = n.z() - r.getMassCenterZ();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * r.getMass() / distance / distance;
+                final double factor = coefficient * nLayout.getMass() * r.getMass() / distance / distance;
 
                 nLayout.setDx(nLayout.getDx() + xDist * factor);
                 nLayout.setDy(nLayout.getDy() + yDist * factor);
                 nLayout.setDz(nLayout.getDz() + zDist * factor);
             } else if (distance < 0) {
-                double factor = -coefficient * nLayout.getMass() * r.getMass() / distance;
+                final double factor = -coefficient * nLayout.getMass() * r.getMass() / distance;
 
                 nLayout.setDx(nLayout.getDx() + xDist * factor);
                 nLayout.setDy(nLayout.getDy() + yDist * factor);
@@ -291,18 +326,18 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply(Node n, double g) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
+        public void apply(final Node n, final double g) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
 
             // Get the distance
-            double xDist = n.x();
-            double yDist = n.y();
-            double zDist = n.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n.x();
+            final double yDist = n.y();
+            final double zDist = n.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * g / distance;
+                final double factor = coefficient * nLayout.getMass() * g / distance;
 
                 nLayout.setDx(nLayout.getDx() - xDist * factor);
                 nLayout.setDy(nLayout.getDy() - yDist * factor);
@@ -311,18 +346,18 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply_BH(Node n, Node o) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
-            ForceAtlas2LayoutData oLayout = o.getLayoutData();
+        public void apply_BH(final Node n, final Node o) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
+            final ForceAtlas2LayoutData oLayout = o.getLayoutData();
             // Get the distance
-            double xDist = n.x() - o.x();
-            double yDist = n.y() - o.y();
-            double zDist = n.z() - o.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n.size() - o.size();
+            final double xDist = n.x() - o.x();
+            final double yDist = n.y() - o.y();
+            final double zDist = n.z() - o.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n.size() - o.size();
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * oLayout.getMass() / distance / distance;
+                final double factor = coefficient * nLayout.getMass() * oLayout.getMass() / distance / distance;
 
                 nLayout.setDx(nLayout.getDx() + xDist * factor);
                 nLayout.setDy(nLayout.getDy() + yDist * factor);
@@ -335,33 +370,33 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public strongGravity(double c) {
+        public strongGravity(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2) {
+        public void apply(final Node n1, final Node n2) {
             // Not Relevant
         }
 
         @Override
-        public void apply(Node n, Region r) {
+        public void apply(final Node n, final Region r) {
             // Not Relevant
         }
 
         @Override
-        public void apply(Node n, double g) {
-            ForceAtlas2LayoutData nLayout = n.getLayoutData();
+        public void apply(final Node n, final double g) {
+            final ForceAtlas2LayoutData nLayout = n.getLayoutData();
 
             // Get the distance
-            double xDist = n.x();
-            double yDist = n.y();
-            double zDist = n.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n.x();
+            final double yDist = n.y();
+            final double zDist = n.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = coefficient * nLayout.getMass() * g;
+                final double factor = coefficient * nLayout.getMass() * g;
 
                 nLayout.setDx(nLayout.getDx() - xDist * factor);
                 nLayout.setDy(nLayout.getDy() - yDist * factor);
@@ -370,7 +405,7 @@ public class ForceFactory {
         }
 
         @Override
-        public void apply_BH(Node n, Node o) {
+        public void apply_BH(final Node n, final Node o) {
             // Not Relevant
         }
     }
@@ -382,22 +417,22 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public linAttraction(double c) {
+        public linAttraction(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
 
             // NB: factor = force / distance
-            double factor = -coefficient * e;
+            final double factor = -coefficient * e;
 
             // if (n1.getId().equals("10812")) {
             //     System.out.println("before (" + n2.getId() + ") " + n1Layout.getDx() + " " + n1Layout.getDy());
@@ -428,22 +463,22 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public linAttraction_massDistributed(double c) {
+        public linAttraction_massDistributed(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
 
             // NB: factor = force / distance
-            double factor = -coefficient * e / n1Layout.getMass();
+            final double factor = -coefficient * e / n1Layout.getMass();
 
             n1Layout.augmentDx(xDist * factor);
             n1Layout.augmentDy(yDist * factor);
@@ -462,25 +497,24 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public logAttraction(double c) {
+        public logAttraction(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
-
                 // NB: factor = force / distance
-                double factor = -coefficient * e * Math.log(1 + distance) / distance;
+                final double factor = -coefficient * e * Math.log(1 + distance) / distance;
 
                 n1Layout.augmentDx(xDist * factor);
                 n1Layout.augmentDy(yDist * factor);
@@ -500,25 +534,24 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public logAttraction_degreeDistributed(double c) {
+        public logAttraction_degreeDistributed(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
 
             if (distance > 0) {
-
                 // NB: factor = force / distance
-                double factor = -coefficient * e * Math.log(1 + distance) / distance / n1Layout.getMass();
+                final double factor = -coefficient * e * Math.log(1 + distance) / distance / n1Layout.getMass();
 
                 n1Layout.augmentDx(xDist * factor);
                 n1Layout.augmentDy(yDist * factor);
@@ -538,24 +571,24 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public linAttraction_antiCollision(double c) {
+        public linAttraction_antiCollision(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = -coefficient * e;
+                final double factor = -coefficient * e;
 
                 n1Layout.augmentDx(xDist * factor);
                 n1Layout.augmentDy(yDist * factor);
@@ -575,24 +608,24 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public linAttraction_degreeDistributed_antiCollision(double c) {
+        public linAttraction_degreeDistributed_antiCollision(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
 
             if (distance > 0) {
                 // NB: factor = force / distance
-                double factor = -coefficient * e / n1Layout.getMass();
+                final double factor = -coefficient * e / n1Layout.getMass();
 
                 n1Layout.augmentDx(xDist * factor);
                 n1Layout.augmentDy(yDist * factor);
@@ -612,25 +645,25 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public logAttraction_antiCollision(double c) {
+        public logAttraction_antiCollision(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
 
             if (distance > 0) {
 
                 // NB: factor = force / distance
-                double factor = -coefficient * e * Math.log(1 + distance) / distance;
+                final double factor = -coefficient * e * Math.log(1 + distance) / distance;
 
                 n1Layout.augmentDx(xDist * factor);
                 n1Layout.augmentDy(yDist * factor);
@@ -650,25 +683,25 @@ public class ForceFactory {
 
         private final double coefficient;
 
-        public logAttraction_degreeDistributed_antiCollision(double c) {
+        public logAttraction_degreeDistributed_antiCollision(final double c) {
             coefficient = c;
         }
 
         @Override
-        public void apply(Node n1, Node n2, double e) {
-            ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
-            ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
+        public void apply(final Node n1, final Node n2, final double e) {
+            final ForceAtlas2LayoutData n1Layout = n1.getLayoutData();
+            final ForceAtlas2LayoutData n2Layout = n2.getLayoutData();
 
             // Get the distance
-            double xDist = n1.x() - n2.x();
-            double yDist = n1.y() - n2.y();
-            double zDist = n1.z() - n2.z();
-            double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
+            final double xDist = n1.x() - n2.x();
+            final double yDist = n1.y() - n2.y();
+            final double zDist = n1.z() - n2.z();
+            final double distance = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) - n1.size() - n2.size();
 
             if (distance > 0) {
 
                 // NB: factor = force / distance
-                double factor = -coefficient * e * Math.log(1 + distance) / distance / n1Layout.getMass();
+                final double factor = -coefficient * e * Math.log(1 + distance) / distance / n1Layout.getMass();
 
                 n1Layout.augmentDx(xDist * factor);
                 n1Layout.augmentDy(yDist * factor);

@@ -90,7 +90,7 @@ public class ForceAtlas2Builder implements LayoutBuilder {
         }
 
         @Override
-        public JPanel getSimplePanel(Layout layout) {
+        public JPanel getSimplePanel(final Layout layout) {
             return null;
         }
 

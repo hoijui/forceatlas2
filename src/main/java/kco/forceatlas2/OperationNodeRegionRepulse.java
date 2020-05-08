@@ -57,7 +57,12 @@ public class OperationNodeRegionRepulse extends Operation {
     private final ForceFactory.RepulsionForce f;
     private final double theta;
 
-    public OperationNodeRegionRepulse(Node n, Region r, ForceFactory.RepulsionForce f, double theta) {
+    public OperationNodeRegionRepulse(
+            final Node n,
+            final Region r,
+            final ForceFactory.RepulsionForce f,
+            final double theta)
+    {
         this.n = n;
         this.f = f;
         this.r = r;

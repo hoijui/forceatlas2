@@ -65,7 +65,7 @@ public class Region {
     private final List<Region> subRegions = new ArrayList<>();
     private final boolean is3d;
 
-    public Region(Node[] nodes, boolean is3d) {
+    public Region(final Node[] nodes, final boolean is3d) {
         this.nodes = new ArrayList<>();
         this.nodes.addAll(Arrays.asList(nodes));
         this.is3d = is3d;
@@ -73,7 +73,7 @@ public class Region {
 
     }
 
-    public Region(ArrayList<Node> nodes, boolean is3d) {
+    public Region(final ArrayList<Node> nodes, final boolean is3d) {
         this.nodes = new ArrayList<>(nodes);
         this.is3d = is3d;
         updateMassAndGeometry();
@@ -107,7 +107,7 @@ public class Region {
         }
     }
 
-    public void updateAllMassAndGeometry(boolean recursive) {
+    public void updateAllMassAndGeometry(final boolean recursive) {
         this.updateMassAndGeometry();
         if (recursive && nodes.size() > 1) {
             for (Region subRegion : subRegions) {
@@ -116,39 +116,39 @@ public class Region {
         }
     }
 
-    private List<ArrayList<Node>> partitionZ(ArrayList<Node> nodesToAdd) {
-        ArrayList<Node> frontNodes = new ArrayList<>();
-        ArrayList<Node> backNodes = new ArrayList<>();
+    private List<ArrayList<Node>> partitionZ(final ArrayList<Node> nodesToAdd) {
+        final ArrayList<Node> frontNodes = new ArrayList<>();
+        final ArrayList<Node> backNodes = new ArrayList<>();
         for (Node n : nodesToAdd) {
-            ArrayList<Node> nodesLine = (n.z() < massCenterZ) ? (frontNodes) : (backNodes);
+            final ArrayList<Node> nodesLine = (n.z() < massCenterZ) ? (frontNodes) : (backNodes);
             nodesLine.add(n);
         }
         return Arrays.asList(frontNodes, backNodes);
     }
 
-    private void addSubRegions(List<ArrayList<Node>> lists) {
+    private void addSubRegions(final List<ArrayList<Node>> lists) {
         for (ArrayList<Node> nodesToAdd : lists) {
             addSubRegions(nodesToAdd);
         }
     }
 
-    private void addSubRegions(ArrayList<Node> nodesToAdd) {
+    private void addSubRegions(final ArrayList<Node> nodesToAdd) {
         if (nodesToAdd.size() > 0) {
             if (nodesToAdd.size() < nodes.size()) {
-                Region subRegion = new Region(nodesToAdd, is3d);
+                final Region subRegion = new Region(nodesToAdd, is3d);
                 subRegions.add(subRegion);
             } else {
                 for (Node n : nodesToAdd) {
-                    ArrayList<Node> oneNodeList = new ArrayList<>();
+                    final ArrayList<Node> oneNodeList = new ArrayList<>();
                     oneNodeList.add(n);
-                    Region subRegion = new Region(oneNodeList, is3d);
+                    final Region subRegion = new Region(oneNodeList, is3d);
                     subRegions.add(subRegion);
                 }
             }
         }
     }
 
-    public void buildSubRegions(boolean recursive) {
+    public void buildSubRegions(final boolean recursive) {
         if (is3d) {
             this.buildSubRegions3D(recursive);
         } else {
@@ -156,24 +156,24 @@ public class Region {
         }
     }
 
-    private void buildSubRegions2D(boolean recursive) {
+    private void buildSubRegions2D(final boolean recursive) {
         if (nodes.size() > 1) {
-            ArrayList<Node> leftNodes = new ArrayList<>();
-            ArrayList<Node> rightNodes = new ArrayList<>();
+            final ArrayList<Node> leftNodes = new ArrayList<>();
+            final ArrayList<Node> rightNodes = new ArrayList<>();
             for (Node n : nodes) {
-                ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? (leftNodes) : (rightNodes);
+                final ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? (leftNodes) : (rightNodes);
                 nodesColumn.add(n);
             }
 
-            ArrayList<Node> topleftNodes = new ArrayList<>();
-            ArrayList<Node> bottomleftNodes = new ArrayList<>();
+            final ArrayList<Node> topleftNodes = new ArrayList<>();
+            final ArrayList<Node> bottomleftNodes = new ArrayList<>();
             for (Node n : leftNodes) {
                 ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (topleftNodes) : (bottomleftNodes);
                 nodesLine.add(n);
             }
 
-            ArrayList<Node> bottomrightNodes = new ArrayList<>();
-            ArrayList<Node> toprightNodes = new ArrayList<>();
+            final ArrayList<Node> bottomrightNodes = new ArrayList<>();
+            final ArrayList<Node> toprightNodes = new ArrayList<>();
             for (Node n : rightNodes) {
                 ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (toprightNodes) : (bottomrightNodes);
                 nodesLine.add(n);
@@ -192,24 +192,24 @@ public class Region {
         }
     }
 
-    private void buildSubRegions3D(boolean recursive) {
+    private void buildSubRegions3D(final boolean recursive) {
         if (nodes.size() > 1) {
-            ArrayList<Node> leftNodes = new ArrayList<>();
-            ArrayList<Node> rightNodes = new ArrayList<>();
+            final ArrayList<Node> leftNodes = new ArrayList<>();
+            final ArrayList<Node> rightNodes = new ArrayList<>();
             for (Node n : nodes) {
                 ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? (leftNodes) : (rightNodes);
                 nodesColumn.add(n);
             }
 
-            ArrayList<Node> topleftNodes = new ArrayList<>();
-            ArrayList<Node> bottomleftNodes = new ArrayList<>();
+            final ArrayList<Node> topleftNodes = new ArrayList<>();
+            final ArrayList<Node> bottomleftNodes = new ArrayList<>();
             for (Node n : leftNodes) {
                 ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (topleftNodes) : (bottomleftNodes);
                 nodesLine.add(n);
             }
 
-            ArrayList<Node> bottomrightNodes = new ArrayList<>();
-            ArrayList<Node> toprightNodes = new ArrayList<>();
+            final ArrayList<Node> bottomrightNodes = new ArrayList<>();
+            final ArrayList<Node> toprightNodes = new ArrayList<>();
             for (Node n : rightNodes) {
                 ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (toprightNodes) : (bottomrightNodes);
                 nodesLine.add(n);
@@ -228,12 +228,12 @@ public class Region {
         }
     }
 
-    public void applyForce(Node n, ForceFactory.RepulsionForce Force, double theta) {
+    public void applyForce(final Node n, final ForceFactory.RepulsionForce Force, final double theta) {
         if (nodes.size() < 2) {
-            Node regionNode = nodes.get(0);
+            final Node regionNode = nodes.get(0);
             Force.apply_BH(n, regionNode);
         } else {
-            double distance = Math.sqrt((n.x() - massCenterX) * (n.x() - massCenterX) + (n.y() - massCenterY) * (n.y() - massCenterY) + (n.z() - massCenterZ) * (n.z() - massCenterZ));
+            final double distance = Math.sqrt((n.x() - massCenterX) * (n.x() - massCenterX) + (n.y() - massCenterY) * (n.y() - massCenterY) + (n.z() - massCenterZ) * (n.z() - massCenterZ));
             if (distance * theta > size) {
                 Force.apply(n, this);
             } else {
@@ -251,7 +251,6 @@ public class Region {
     public double getMass() {
         return mass;
     }
-
 
     public double getMassCenterX() {
         return massCenterX;

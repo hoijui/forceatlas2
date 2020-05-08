@@ -62,7 +62,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setDx(double dx) {
+    public void setDx(final double dx) {
         this.dx = dx;
     }
 
@@ -72,7 +72,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setDy(double dy) {
+    public void setDy(final double dy) {
         this.dy = dy;
     }
 
@@ -82,7 +82,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setDz(double dz) {
+    public void setDz(final double dz) {
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setOld_dx(double old_dx) {
+    public void setOld_dx(final double old_dx) {
         this.old_dx = old_dx;
     }
 
@@ -101,7 +101,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setOld_dy(double old_dy) {
+    public void setOld_dy(final double old_dy) {
         this.old_dy = old_dy;
     }
 
@@ -111,7 +111,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setOld_dz(double old_dz) {
+    public void setOld_dz(final double old_dz) {
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public void setMass(double mass) {
+    public void setMass(final double mass) {
         this.mass = mass;
     }
 
@@ -130,11 +130,11 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     }
 
     @Override
-    public synchronized void augmentDy(double ddy) {
+    public synchronized void augmentDy(final double ddy) {
         this.dy += ddy;
     }
 
     @Override
-    public void augmentDz(double ddz) {
+    public void augmentDz(final double ddz) {
     }
 }

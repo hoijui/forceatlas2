@@ -103,14 +103,14 @@ public class ForceAtlas2 implements Layout {
     private final boolean is3d;
     private final boolean useAltSpeed;
 
-    public ForceAtlas2(ForceAtlas2Builder layoutBuilder, boolean is3d, boolean useAltSpeed) {
+    public ForceAtlas2(final ForceAtlas2Builder layoutBuilder, final boolean is3d, final boolean useAltSpeed) {
         this.layoutBuilder = layoutBuilder;
         this.is3d = is3d;
         this.useAltSpeed = useAltSpeed;
         this.threadCount = Runtime.getRuntime().availableProcessors();
     }
 
-    private static double getEdgeWeight(Edge edge, boolean isDynamicWeight, Interval interval) {
+    private static double getEdgeWeight(final Edge edge, final boolean isDynamicWeight, final Interval interval) {
         if (isDynamicWeight) {
             return edge.getWeight(interval);
         } else {
@@ -118,7 +118,7 @@ public class ForceAtlas2 implements Layout {
         }
     }
 
-    private static void waitForFutures(List<Future<?>> futures) {
+    private static void waitForFutures(final List<Future<?>> futures) {
         for (Future<?> f : futures) {
             try {
                 f.get();
@@ -241,7 +241,6 @@ public class ForceAtlas2 implements Layout {
             }
             outboundAttCompensation /= nodes.length;
         }
-
     }
 
     private double applyForces() {
@@ -263,8 +262,8 @@ public class ForceAtlas2 implements Layout {
         } catch (Exception x) {
             x.printStackTrace();
         }
-        return distance;
 
+        return distance;
     }
 
     private void attraction(final boolean isDynamicWeight, final Interval interval) {
@@ -282,7 +281,6 @@ public class ForceAtlas2 implements Layout {
             futures.add(pool.submit(task));
         }
         waitForFutures(futures);
-
     }
 
     private void speed() {
@@ -297,7 +295,7 @@ public class ForceAtlas2 implements Layout {
         double totalSwinging = 0d;  // How much irregular movement
         double totalEffectiveTraction = 0d;  // Hom much useful movement
         try {
-            for (Future<Double[]> f : futures) {
+            for (final Future<Double[]> f : futures) {
                 Double[] result = f.get();
                 totalSwinging += result[0];
                 totalEffectiveTraction += result[1];
@@ -340,7 +338,6 @@ public class ForceAtlas2 implements Layout {
         // But the speed should not rise too much too quickly, since it would make the convergence drop dramatically.
         double maxRise = 0.5;   // Max rise: 50%
         speed = speed + Math.min(targetSpeed - speed, maxRise * speed);
-
     }
 
     private void initLayoutData() {
@@ -353,7 +350,6 @@ public class ForceAtlas2 implements Layout {
             futures.add(pool.submit(new InitLayoutTask(nodesList.subList(from, to), graph)));
         }
         waitForFutures(futures);
-
     }
 
     @Override
@@ -382,7 +378,6 @@ public class ForceAtlas2 implements Layout {
         // Apply forces
         distance = applyForces();
         stepCount++;
-
     }
 
     public double getDistance() {
@@ -439,7 +434,7 @@ public class ForceAtlas2 implements Layout {
     }
 
     @Override
-    public void setGraphModel(GraphModel graphModel) {
+    public void setGraphModel(final GraphModel graphModel) {
         this.graphModel = graphModel;
         // Trick: reset here to take the profile of the graph in account for default values
         resetPropertiesValues();
@@ -449,7 +444,7 @@ public class ForceAtlas2 implements Layout {
         return barnesHutTheta;
     }
 
-    public void setBarnesHutTheta(Double barnesHutTheta) {
+    public void setBarnesHutTheta(final Double barnesHutTheta) {
         this.barnesHutTheta = barnesHutTheta;
     }
 
@@ -457,7 +452,7 @@ public class ForceAtlas2 implements Layout {
         return edgeWeightInfluence;
     }
 
-    public void setEdgeWeightInfluence(Double edgeWeightInfluence) {
+    public void setEdgeWeightInfluence(final Double edgeWeightInfluence) {
         this.edgeWeightInfluence = edgeWeightInfluence;
     }
 
@@ -465,7 +460,7 @@ public class ForceAtlas2 implements Layout {
         return jitterTolerance;
     }
 
-    public void setJitterTolerance(Double jitterTolerance) {
+    public void setJitterTolerance(final Double jitterTolerance) {
         this.jitterTolerance = jitterTolerance;
     }
 
@@ -473,7 +468,7 @@ public class ForceAtlas2 implements Layout {
         return linLogMode;
     }
 
-    public void setLinLogMode(Boolean linLogMode) {
+    public void setLinLogMode(final Boolean linLogMode) {
         this.linLogMode = linLogMode;
     }
 
@@ -481,7 +476,7 @@ public class ForceAtlas2 implements Layout {
         return scalingRatio;
     }
 
-    public void setScalingRatio(Double scalingRatio) {
+    public void setScalingRatio(final Double scalingRatio) {
         this.scalingRatio = scalingRatio;
     }
 
@@ -489,7 +484,7 @@ public class ForceAtlas2 implements Layout {
         return strongGravityMode;
     }
 
-    public void setStrongGravityMode(Boolean strongGravityMode) {
+    public void setStrongGravityMode(final Boolean strongGravityMode) {
         this.strongGravityMode = strongGravityMode;
     }
 
@@ -497,7 +492,7 @@ public class ForceAtlas2 implements Layout {
         return gravity;
     }
 
-    public void setGravity(Double gravity) {
+    public void setGravity(final Double gravity) {
         this.gravity = gravity;
     }
 
@@ -505,7 +500,7 @@ public class ForceAtlas2 implements Layout {
         return threadCount;
     }
 
-    public void setThreadsCount(Integer threadCount) {
+    public void setThreadsCount(final Integer threadCount) {
         this.threadCount = Math.max(1, threadCount);
     }
 
@@ -513,7 +508,7 @@ public class ForceAtlas2 implements Layout {
         return outboundAttractionDistribution;
     }
 
-    public void setOutboundAttractionDistribution(Boolean outboundAttractionDistribution) {
+    public void setOutboundAttractionDistribution(final Boolean outboundAttractionDistribution) {
         this.outboundAttractionDistribution = outboundAttractionDistribution;
     }
 
@@ -521,7 +516,7 @@ public class ForceAtlas2 implements Layout {
         return adjustSizes;
     }
 
-    public void setAdjustSizes(Boolean adjustSizes) {
+    public void setAdjustSizes(final Boolean adjustSizes) {
         this.adjustSizes = adjustSizes;
     }
 
@@ -537,16 +532,15 @@ public class ForceAtlas2 implements Layout {
         return updateBarnesHutIter;
     }
 
-    public void setUpdateBarnesHutIter(int updateBarnesHutIter) {
+    public void setUpdateBarnesHutIter(final int updateBarnesHutIter) {
         this.updateBarnesHutIter = updateBarnesHutIter;
     }
 
-    public void setUpdateCenter(boolean updateCenter) {
+    public void setUpdateCenter(final boolean updateCenter) {
         this.updateCenter = updateCenter;
     }
 
-
-    public void setBarnesHutSplits(int barnesHutSplits) {
+    public void setBarnesHutSplits(final int barnesHutSplits) {
         this.barnesHutSplits = barnesHutSplits;
     }
 
@@ -653,8 +647,8 @@ public class ForceAtlas2 implements Layout {
         return properties.toArray(new LayoutProperty[0]);
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "ForceAtlas2{" +
                 "outboundAttCompensation=" + outboundAttCompensation +
                 ", edgeWeightInfluence=" + edgeWeightInfluence +
@@ -680,10 +674,11 @@ public class ForceAtlas2 implements Layout {
     private static class SpeedTask implements Callable<Double[]> {
         private final Collection<Node> nodes;
 
-        private SpeedTask(Collection<Node> nodes) {
+        private SpeedTask(final Collection<Node> nodes) {
             this.nodes = nodes;
         }
 
+        @Override
         public Double[] call() {
             double totalSwinging = 0d;  // How much irregular movement
             double totalEffectiveTraction = 0d;  // Hom much useful movement
@@ -703,10 +698,11 @@ public class ForceAtlas2 implements Layout {
     private static class InitLayoutTask implements Runnable {
         private final Collection<Node> nodes;
 
-        public InitLayoutTask(Collection<Node> nodes, Graph graph) {
+        public InitLayoutTask(final Collection<Node> nodes, Graph graph) {
             this.nodes = nodes;
         }
 
+        @Override
         public void run() {
             for (Node n : nodes) {
                 ForceAtlas2LayoutData nLayout = n.getLayoutData();
@@ -728,13 +724,14 @@ public class ForceAtlas2 implements Layout {
         private final double speed;
         private final boolean useAltSpeed;
 
-        private ApplyForcesTask(List<Node> nodes, boolean adjustSizes, double speed, boolean useAltSpeed) {
+        private ApplyForcesTask(final List<Node> nodes, final boolean adjustSizes, final double speed, final boolean useAltSpeed) {
             this.nodes = nodes;
             this.adjustSizes = adjustSizes;
             this.speed = speed;
             this.useAltSpeed = useAltSpeed;
         }
 
+        @Override
         public Double call() {
             double distance = 0;
             if (adjustSizes) {
@@ -796,11 +793,12 @@ public class ForceAtlas2 implements Layout {
         private final Collection<Region> regions;
         private final boolean recursive;
 
-        private BarnesHutUpdateCenterTask(Collection<Region> regions, boolean recursive) {
+        private BarnesHutUpdateCenterTask(final Collection<Region> regions, final boolean recursive) {
             this.regions = regions;
             this.recursive = recursive;
         }
 
+        @Override
         public void run() {
             for (Region r : regions) {
                 r.updateAllMassAndGeometry(recursive);
@@ -812,11 +810,12 @@ public class ForceAtlas2 implements Layout {
         private final Collection<Region> regions;
         private final boolean recursive;
 
-        private BarnesHutBuildSubRegionTask(Collection<Region> regions, boolean recursive) {
+        private BarnesHutBuildSubRegionTask(final Collection<Region> regions, final boolean recursive) {
             this.regions = regions;
             this.recursive = recursive;
         }
 
+        @Override
         public void run() {
             for (Region r : regions) {
                 r.buildSubRegions(recursive);
@@ -832,7 +831,13 @@ public class ForceAtlas2 implements Layout {
         private final Interval interval;
         private final double edgeWeightInfluence;
 
-        private AttractionTask(Collection<Edge> edges, ForceFactory.AttractionForce attraction, boolean isDynamicWeight, Interval interval, double edgeWeightInfluence) {
+        private AttractionTask(
+                final Collection<Edge> edges,
+                final ForceFactory.AttractionForce attraction,
+                final boolean isDynamicWeight,
+                final Interval interval,
+                final double edgeWeightInfluence)
+        {
             this.edges = edges;
             Attraction = attraction;
             this.isDynamicWeight = isDynamicWeight;
@@ -840,6 +845,7 @@ public class ForceAtlas2 implements Layout {
             this.edgeWeightInfluence = edgeWeightInfluence;
         }
 
+        @Override
         public void run() {
             if (edgeWeightInfluence == 0) {
                 for (Edge e : edges) {
@@ -855,6 +861,5 @@ public class ForceAtlas2 implements Layout {
                 }
             }
         }
-
     }
 }
