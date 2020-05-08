@@ -56,68 +56,85 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     private double old_dy;
     private double mass = 1;
 
+    @Override
     public double getDx() {
         return dx;
     }
 
+    @Override
     public void setDx(double dx) {
         this.dx = dx;
     }
 
+    @Override
     public double getDy() {
         return dy;
     }
 
+    @Override
     public void setDy(double dy) {
         this.dy = dy;
     }
 
+    @Override
     public double getDz() {
         return 0;
     }
 
+    @Override
     public void setDz(double dz) {
     }
 
+    @Override
     public double getOld_dx() {
         return old_dx;
     }
 
+    @Override
     public void setOld_dx(double old_dx) {
         this.old_dx = old_dx;
     }
 
+    @Override
     public double getOld_dy() {
         return old_dy;
     }
 
+    @Override
     public void setOld_dy(double old_dy) {
         this.old_dy = old_dy;
     }
 
+    @Override
     public double getOld_dz() {
         return 0;
     }
 
+    @Override
     public void setOld_dz(double old_dz) {
     }
 
+    @Override
     public double getMass() {
         return mass;
     }
 
+    @Override
     public void setMass(double mass) {
         this.mass = mass;
     }
 
+    @Override
     public synchronized void augmentDx(double ddx) {
         this.dx += ddx;
     }
 
+    @Override
     public synchronized void augmentDy(double ddy) {
         this.dy += ddy;
     }
 
+    @Override
     public void augmentDz(double ddz) {
     }
 }
