@@ -123,7 +123,7 @@ public class Region {
         final ArrayList<Node> frontNodes = new ArrayList<>();
         final ArrayList<Node> backNodes = new ArrayList<>();
         for (Node n : nodesToAdd) {
-            final ArrayList<Node> nodesLine = (n.z() < massCenterZ) ? (frontNodes) : (backNodes);
+            final ArrayList<Node> nodesLine = (n.z() < massCenterZ) ? frontNodes : backNodes;
             nodesLine.add(n);
         }
         return Arrays.asList(frontNodes, backNodes);
@@ -164,21 +164,21 @@ public class Region {
             final ArrayList<Node> leftNodes = new ArrayList<>();
             final ArrayList<Node> rightNodes = new ArrayList<>();
             for (Node n : nodes) {
-                final ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? (leftNodes) : (rightNodes);
+                final ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? leftNodes : rightNodes;
                 nodesColumn.add(n);
             }
 
             final ArrayList<Node> topleftNodes = new ArrayList<>();
             final ArrayList<Node> bottomleftNodes = new ArrayList<>();
             for (Node n : leftNodes) {
-                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (topleftNodes) : (bottomleftNodes);
+                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? topleftNodes : bottomleftNodes;
                 nodesLine.add(n);
             }
 
             final ArrayList<Node> bottomrightNodes = new ArrayList<>();
             final ArrayList<Node> toprightNodes = new ArrayList<>();
             for (Node n : rightNodes) {
-                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (toprightNodes) : (bottomrightNodes);
+                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? toprightNodes : bottomrightNodes;
                 nodesLine.add(n);
             }
 
@@ -200,21 +200,21 @@ public class Region {
             final ArrayList<Node> leftNodes = new ArrayList<>();
             final ArrayList<Node> rightNodes = new ArrayList<>();
             for (Node n : nodes) {
-                ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? (leftNodes) : (rightNodes);
+                ArrayList<Node> nodesColumn = (n.x() < massCenterX) ? leftNodes : rightNodes;
                 nodesColumn.add(n);
             }
 
             final ArrayList<Node> topleftNodes = new ArrayList<>();
             final ArrayList<Node> bottomleftNodes = new ArrayList<>();
             for (Node n : leftNodes) {
-                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (topleftNodes) : (bottomleftNodes);
+                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? topleftNodes : bottomleftNodes;
                 nodesLine.add(n);
             }
 
             final ArrayList<Node> bottomrightNodes = new ArrayList<>();
             final ArrayList<Node> toprightNodes = new ArrayList<>();
             for (Node n : rightNodes) {
-                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? (toprightNodes) : (bottomrightNodes);
+                ArrayList<Node> nodesLine = (n.y() < massCenterY) ? toprightNodes : bottomrightNodes;
                 nodesLine.add(n);
             }
 

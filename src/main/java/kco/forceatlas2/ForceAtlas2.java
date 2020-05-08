@@ -232,7 +232,7 @@ public class ForceAtlas2 implements Layout {
                     isBarnesHutOptimize(),
                     getBarnesHutTheta(),
                     getGravity(),
-                    isStrongGravityMode() ? (ForceFactory.builder.getStrongGravity(getScalingRatio())) : (Repulsion),
+                    isStrongGravityMode() ? ForceFactory.builder.getStrongGravity(getScalingRatio()) : Repulsion,
                     getScalingRatio(),
                     rootRegion,
                     Repulsion)));
@@ -283,7 +283,7 @@ public class ForceAtlas2 implements Layout {
                 isLinLogMode(),
                 isOutboundAttractionDistribution(),
                 isAdjustSizes(),
-                1 * ((isOutboundAttractionDistribution()) ? (outboundAttCompensation) : (1)));
+                1 * (isOutboundAttractionDistribution() ? outboundAttCompensation : 1));
         int taskCount = currentThreadCount;
         List<Edge> edgeList = Arrays.asList(edges);
         final Double edgeWeightInfluence = getEdgeWeightInfluence();
