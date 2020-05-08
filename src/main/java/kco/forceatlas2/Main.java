@@ -36,6 +36,7 @@ However, if you add GPL Version 3 code and therefore, elected the GPL
 Version 3 license, then the option applies only if the new code is
 made subject to such option by the copyright holder.
  */
+
 package kco.forceatlas2;
 
 import org.gephi.graph.api.Graph;
@@ -54,7 +55,6 @@ import org.openide.util.Lookup;
 
 import java.io.*;
 import java.util.*;
-
 
 public class Main {
 
