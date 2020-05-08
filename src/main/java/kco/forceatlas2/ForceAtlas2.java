@@ -212,7 +212,7 @@ public class ForceAtlas2 implements Layout {
     private void repulsionAndGravity() {
 
         // Repulsion (and gravity)
-        // NB: Muti-threaded
+        // NB: Multi-threaded
         ForceFactory.RepulsionForce Repulsion = ForceFactory.builder.buildRepulsion(isAdjustSizes(), getScalingRatio());
 
         List<Future> futures = new ArrayList<>();
@@ -331,7 +331,7 @@ public class ForceAtlas2 implements Layout {
             speedEfficiency *= 1.3;
         }
 
-        // But the speed shoudn't rise too much too quickly, since it would make the convergence drop dramatically.
+        // But the speed should not rise too much too quickly, since it would make the convergence drop dramatically.
         double maxRise = 0.5;   // Max rise: 50%
         speed = speed + Math.min(targetSpeed - speed, maxRise * speed);
 
