@@ -101,7 +101,10 @@ public class Region {
             size = Double.MIN_VALUE;
             for (Node n : nodes) {
                 double z = is3d ? (n.z() - massCenterZ) * (n.z() - massCenterZ) : 0;
-                double distance = Math.sqrt((n.x() - massCenterX) * (n.x() - massCenterX) + (n.y() - massCenterY) * (n.y() - massCenterY) + z);
+                double distance = Math.sqrt(
+                        (n.x() - massCenterX) * (n.x() - massCenterX)
+                        + (n.y() - massCenterY) * (n.y() - massCenterY)
+                        + z);
                 size = Math.max(size, 2 * distance);
             }
         }
@@ -233,7 +236,10 @@ public class Region {
             final Node regionNode = nodes.get(0);
             Force.apply_BH(n, regionNode);
         } else {
-            final double distance = Math.sqrt((n.x() - massCenterX) * (n.x() - massCenterX) + (n.y() - massCenterY) * (n.y() - massCenterY) + (n.z() - massCenterZ) * (n.z() - massCenterZ));
+            final double distance = Math.sqrt(
+                    (n.x() - massCenterX) * (n.x() - massCenterX)
+                    + (n.y() - massCenterY) * (n.y() - massCenterY)
+                    + (n.z() - massCenterZ) * (n.z() - massCenterZ));
             if (distance * theta > size) {
                 Force.apply(n, this);
             } else {

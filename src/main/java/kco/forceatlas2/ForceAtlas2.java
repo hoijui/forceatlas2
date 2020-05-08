@@ -225,7 +225,17 @@ public class ForceAtlas2 implements Layout {
         for (int t = currentThreadCount; t > 0; t--) {
             int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
             int to = (int) Math.floor((double) nodes.length * t / currentThreadCount);
-            futures.add(pool.submit(new NodesThread(nodes, from, to, isBarnesHutOptimize(), getBarnesHutTheta(), getGravity(), (isStrongGravityMode()) ? (ForceFactory.builder.getStrongGravity(getScalingRatio())) : (Repulsion), getScalingRatio(), rootRegion, Repulsion)));
+            futures.add(pool.submit(new NodesThread(
+                    nodes,
+                    from,
+                    to,
+                    isBarnesHutOptimize(),
+                    getBarnesHutTheta(),
+                    getGravity(),
+                    isStrongGravityMode() ? (ForceFactory.builder.getStrongGravity(getScalingRatio())) : (Repulsion),
+                    getScalingRatio(),
+                    rootRegion,
+                    Repulsion)));
         }
         waitForFutures(futures);
     }
@@ -269,7 +279,11 @@ public class ForceAtlas2 implements Layout {
     private void attraction(final boolean isDynamicWeight, final Interval interval) {
         List<Future<?>> futures = new ArrayList<>();
 
-        final ForceFactory.AttractionForce Attraction = ForceFactory.builder.buildAttraction(isLinLogMode(), isOutboundAttractionDistribution(), isAdjustSizes(), 1 * ((isOutboundAttractionDistribution()) ? (outboundAttCompensation) : (1)));
+        final ForceFactory.AttractionForce Attraction = ForceFactory.builder.buildAttraction(
+                isLinLogMode(),
+                isOutboundAttractionDistribution(),
+                isAdjustSizes(),
+                1 * ((isOutboundAttractionDistribution()) ? (outboundAttCompensation) : (1)));
         int taskCount = currentThreadCount;
         List<Edge> edgeList = Arrays.asList(edges);
         final Double edgeWeightInfluence = getEdgeWeightInfluence();
@@ -307,11 +321,15 @@ public class ForceAtlas2 implements Layout {
         // We want that swingingMovement < tolerance * convergenceMovement
 
         // Optimize jitter tolerance
-        // The 'right' jitter tolerance for this network. Bigger networks need more tolerance. Denser networks need less tolerance. Totally empiric.
+        // The 'right' jitter tolerance for this network.
+        // Bigger networks need more tolerance.
+        // Denser networks need less tolerance.
+        // Totally empiric.
         double estimatedOptimalJitterTolerance = 0.05 * Math.sqrt(nodes.length);
         double minJT = Math.sqrt(estimatedOptimalJitterTolerance);
         double maxJT = 10;
-        double jt = jitterTolerance * Math.max(minJT, Math.min(maxJT, estimatedOptimalJitterTolerance * totalEffectiveTraction / Math.pow(nodes.length, 2)));
+        double jt = jitterTolerance * Math.max(minJT, Math.min(maxJT,
+                estimatedOptimalJitterTolerance * totalEffectiveTraction / Math.pow(nodes.length, 2)));
 
         double minSpeedEfficiency = 0.05;
 
@@ -335,8 +353,9 @@ public class ForceAtlas2 implements Layout {
             speedEfficiency *= 1.3;
         }
 
-        // But the speed should not rise too much too quickly, since it would make the convergence drop dramatically.
-        double maxRise = 0.5;   // Max rise: 50%
+        // But the speed should not rise too much too quickly,
+        // since it would make the convergence drop dramatically.
+        double maxRise = 0.5; // Max rise: 50%
         speed = speed + Math.min(targetSpeed - speed, maxRise * speed);
     }
 
@@ -685,9 +704,15 @@ public class ForceAtlas2 implements Layout {
             for (Node n : nodes) {
                 ForceAtlas2LayoutData nLayout = n.getLayoutData();
                 if (!n.isFixed()) {
-                    double swinging = Math.sqrt(Math.pow(nLayout.getOld_dx() - nLayout.getDx(), 2) + Math.pow(nLayout.getOld_dy() - nLayout.getDy(), 2) + Math.pow(nLayout.getOld_dz() - nLayout.getDz(), 2));
-                    totalSwinging += nLayout.getMass() * swinging;   // If the node has a burst change of direction, then it's not converging.
-                    totalEffectiveTraction += nLayout.getMass() * 0.5 * Math.sqrt(Math.pow(nLayout.getOld_dx() + nLayout.getDx(), 2) + Math.pow(nLayout.getOld_dy() + nLayout.getDy(), 2)
+                    double swinging = Math.sqrt(
+                            Math.pow(nLayout.getOld_dx() - nLayout.getDx(), 2)
+                            + Math.pow(nLayout.getOld_dy() - nLayout.getDy(), 2)
+                            + Math.pow(nLayout.getOld_dz() - nLayout.getDz(), 2));
+                    // If the node has a burst change of direction, then it's not converging.
+                    totalSwinging += nLayout.getMass() * swinging;
+                    totalEffectiveTraction += nLayout.getMass() * 0.5 * Math.sqrt(
+                            Math.pow(nLayout.getOld_dx() + nLayout.getDx(), 2)
+                            + Math.pow(nLayout.getOld_dy() + nLayout.getDy(), 2)
                             + Math.pow(nLayout.getOld_dz() + nLayout.getDz(), 2));
                 }
             }
@@ -724,7 +749,11 @@ public class ForceAtlas2 implements Layout {
         private final double speed;
         private final boolean useAltSpeed;
 
-        private ApplyForcesTask(final List<Node> nodes, final boolean adjustSizes, final double speed, final boolean useAltSpeed) {
+        private ApplyForcesTask(final List<Node> nodes,
+                final boolean adjustSizes,
+                final double speed,
+                final boolean useAltSpeed)
+        {
             this.nodes = nodes;
             this.adjustSizes = adjustSizes;
             this.speed = speed;
@@ -742,8 +771,13 @@ public class ForceAtlas2 implements Layout {
 
                         // Adaptive auto-speed: the speed of each node is lowered
                         // when the node swings.
-                        double swinging = nLayout.getMass() * Math.sqrt((nLayout.getOld_dx() - nLayout.getDx()) * (nLayout.getOld_dx() - nLayout.getDx()) + (nLayout.getOld_dy() - nLayout.getDy()) * (nLayout.getOld_dy() - nLayout.getDy())
-                                + (nLayout.getOld_dz() - nLayout.getDz()) * (nLayout.getOld_dz() - nLayout.getDz()));
+                        double swinging = nLayout.getMass() * Math.sqrt(
+                                (nLayout.getOld_dx() - nLayout.getDx())
+                                        * (nLayout.getOld_dx() - nLayout.getDx())
+                                + (nLayout.getOld_dy() - nLayout.getDy())
+                                        * (nLayout.getOld_dy() - nLayout.getDy())
+                                + (nLayout.getOld_dz() - nLayout.getDz())
+                                        * (nLayout.getOld_dz() - nLayout.getDz()));
                         double factor = 0.1 * speed / (1f + Math.sqrt(speed * swinging));
 
                         double df = Math.sqrt(Math.pow(nLayout.getDx(), 2) + Math.pow(nLayout.getDy(), 2) + Math.pow(nLayout.getDz(), 2));
@@ -752,7 +786,10 @@ public class ForceAtlas2 implements Layout {
                         double x = n.x() + nLayout.getDx() * factor;
                         double y = n.y() + nLayout.getDy() * factor;
                         double z = n.z() + nLayout.getDz() * factor;
-                        distance += Math.sqrt(Math.pow(n.x() - x, 2) + Math.pow(n.y() - y, 2) + Math.pow(n.z() - z, 2));
+                        distance += Math.sqrt(
+                                Math.pow(n.x() - x, 2)
+                                + Math.pow(n.y() - y, 2)
+                                + Math.pow(n.z() - z, 2));
 
                         n.setX((float) x);
                         n.setY((float) y);
@@ -766,18 +803,29 @@ public class ForceAtlas2 implements Layout {
 
                         // Adaptive auto-speed: the speed of each node is lowered
                         // when the node swings.
-                        double swinging = nLayout.getMass() * Math.sqrt((nLayout.getOld_dx() - nLayout.getDx()) * (nLayout.getOld_dx() - nLayout.getDx()) + (nLayout.getOld_dy() - nLayout.getDy()) * (nLayout.getOld_dy() - nLayout.getDy())
-                                + (nLayout.getOld_dz() - nLayout.getDz()) * (nLayout.getOld_dz() - nLayout.getDz()));
+                        double swinging = nLayout.getMass() * Math.sqrt(
+                                (nLayout.getOld_dx() - nLayout.getDx())
+                                        * (nLayout.getOld_dx() - nLayout.getDx())
+                                + (nLayout.getOld_dy() - nLayout.getDy())
+                                        * (nLayout.getOld_dy() - nLayout.getDy())
+                                + (nLayout.getOld_dz() - nLayout.getDz())
+                                        * (nLayout.getOld_dz() - nLayout.getDz()));
                         double factor = speed / (1f + Math.sqrt(speed * swinging));
 
                         if (useAltSpeed) {
-                            factor = Math.min(0.1 * factor, 10.0 / Math.sqrt(Math.pow(nLayout.getDx(), 2) + Math.pow(nLayout.getDy(), 2) + Math.pow(nLayout.getDz(), 2)));
+                            factor = Math.min(0.1 * factor, 10.0 / Math.sqrt(
+                                    Math.pow(nLayout.getDx(), 2)
+                                    + Math.pow(nLayout.getDy(), 2)
+                                    + Math.pow(nLayout.getDz(), 2)));
                         }
 
                         double x = n.x() + nLayout.getDx() * factor;
                         double y = n.y() + nLayout.getDy() * factor;
                         double z = n.z() + nLayout.getDz() * factor;
-                        distance += Math.sqrt(Math.pow(n.x() - x, 2) + Math.pow(n.y() - y, 2) + Math.pow(n.z() - z, 2));
+                        distance += Math.sqrt(
+                                Math.pow(n.x() - x, 2)
+                                + Math.pow(n.y() - y, 2)
+                                + Math.pow(n.z() - z, 2));
 
                         n.setX((float) x);
                         n.setY((float) y);
@@ -853,11 +901,17 @@ public class ForceAtlas2 implements Layout {
                 }
             } else if (edgeWeightInfluence == 1) {
                 for (Edge e : edges) {
-                    Attraction.apply(e.getSource(), e.getTarget(), getEdgeWeight(e, isDynamicWeight, interval));
+                    Attraction.apply(
+                            e.getSource(),
+                            e.getTarget(),
+                            getEdgeWeight(e, isDynamicWeight, interval));
                 }
             } else {
                 for (Edge e : edges) {
-                    Attraction.apply(e.getSource(), e.getTarget(), Math.pow(getEdgeWeight(e, isDynamicWeight, interval), edgeWeightInfluence));
+                    Attraction.apply(
+                            e.getSource(),
+                            e.getTarget(),
+                            Math.pow(getEdgeWeight(e, isDynamicWeight, interval), edgeWeightInfluence));
                 }
             }
         }
