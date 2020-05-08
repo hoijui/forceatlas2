@@ -57,19 +57,19 @@ public class ForceAtlas2LayoutData2d implements ForceAtlas2LayoutData {
     private double mass = 1;
 
 
-    public double getDx() {
+    public synchronized double getDx() {
         return dx;
     }
 
-    public void setDx(double dx) {
+    public synchronized void setDx(double dx) {
         this.dx = dx;
     }
 
-    public double getDy() {
+    public synchronized double getDy() {
         return dy;
     }
 
-    public void setDy(double dy) {
+    public synchronized void setDy(double dy) {
         this.dy = dy;
     }
 
