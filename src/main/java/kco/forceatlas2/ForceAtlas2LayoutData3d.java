@@ -53,11 +53,11 @@ public class ForceAtlas2LayoutData3d extends ForceAtlas2LayoutData2d {
     private double dz;
     private double old_dz;
 
-    public synchronized double getDz() {
+    public double getDz() {
         return dz;
     }
 
-    public synchronized void setDz(double dz) {
+    public void setDz(double dz) {
         this.dz = dz;
     }
 
