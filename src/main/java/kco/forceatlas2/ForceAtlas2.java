@@ -52,6 +52,7 @@ import org.openide.util.NbBundle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -112,8 +113,8 @@ public class ForceAtlas2 implements Layout {
         }
     }
 
-    private static void waitForFutures(List<Future> futures) {
-        for (Future f : futures) {
+    private static void waitForFutures(List<Future<?>> futures) {
+        for (Future<?> f : futures) {
             try {
                 f.get();
             } catch (Exception x) {
@@ -162,9 +163,9 @@ public class ForceAtlas2 implements Layout {
                 List<Region> regions = new ArrayList<>();
                 regions.add(rootRegion);
                 for (int splitIndex = 0; splitIndex < barnesHutSplits; splitIndex++) {
-                    List<Future> futures = new ArrayList<>();
+                    List<Future<?>> futures = new ArrayList<>();
                     for (Region r : regions) {
-                        futures.add(pool.submit(new BarnesHutBuildSubRegionTask(Arrays.asList(r), false)));
+                        futures.add(pool.submit(new BarnesHutBuildSubRegionTask(Collections.singletonList(r), false)));
                     }
                     waitForFutures(futures);
                     List<Region> newRegions = new ArrayList<>();
@@ -174,7 +175,7 @@ public class ForceAtlas2 implements Layout {
                     regions = newRegions;
                 }
 
-                List<Future> futures = new ArrayList<>();
+                List<Future<?>> futures = new ArrayList<>();
                 for (int t = currentThreadCount; t > 0; t--) {
                     int from = (int) Math.floor((double) regions.size() * (t - 1) / currentThreadCount);
                     int to = (int) Math.floor((double) regions.size() * t / currentThreadCount);
@@ -187,9 +188,9 @@ public class ForceAtlas2 implements Layout {
                 List<Region> regions = new ArrayList<>();
                 regions.add(rootRegion);
                 for (int splitIndex = 0; splitIndex < barnesHutSplits; splitIndex++) {
-                    List<Future> futures = new ArrayList<>();
+                    List<Future<?>> futures = new ArrayList<>();
                     for (Region r : regions) {
-                        futures.add(pool.submit(new BarnesHutUpdateCenterTask(Arrays.asList(r), false)));
+                        futures.add(pool.submit(new BarnesHutUpdateCenterTask(Collections.singletonList(r), false)));
                     }
                     waitForFutures(futures);
                     List<Region> newRegions = new ArrayList<>();
@@ -198,7 +199,7 @@ public class ForceAtlas2 implements Layout {
                     }
                     regions = newRegions;
                 }
-                List<Future> futures = new ArrayList<>();
+                List<Future<?>> futures = new ArrayList<>();
                 for (int t = currentThreadCount; t > 0; t--) {
                     int from = (int) Math.floor((double) regions.size() * (t - 1) / currentThreadCount);
                     int to = (int) Math.floor((double) regions.size() * t / currentThreadCount);
@@ -215,7 +216,7 @@ public class ForceAtlas2 implements Layout {
         // NB: Multi-threaded
         ForceFactory.RepulsionForce Repulsion = ForceFactory.builder.buildRepulsion(isAdjustSizes(), getScalingRatio());
 
-        List<Future> futures = new ArrayList<>();
+        List<Future<?>> futures = new ArrayList<>();
         for (int t = currentThreadCount; t > 0; t--) {
             int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
             int to = (int) Math.floor((double) nodes.length * t / currentThreadCount);
@@ -262,7 +263,7 @@ public class ForceAtlas2 implements Layout {
     }
 
     private void attraction(final boolean isDynamicWeight, final Interval interval) {
-        List<Future> futures = new ArrayList<>();
+        List<Future<?>> futures = new ArrayList<>();
 
         final ForceFactory.AttractionForce Attraction = ForceFactory.builder.buildAttraction(isLinLogMode(), isOutboundAttractionDistribution(), isAdjustSizes(), 1 * ((isOutboundAttractionDistribution()) ? (outboundAttCompensation) : (1)));
         int taskCount = currentThreadCount;
@@ -339,7 +340,7 @@ public class ForceAtlas2 implements Layout {
 
     private void initLayoutData() {
 
-        List<Future> futures = new ArrayList<>();
+        List<Future<?>> futures = new ArrayList<>();
         List<Node> nodesList = Arrays.asList(nodes);
         for (int t = currentThreadCount; t > 0; t--) {
             int from = (int) Math.floor((double) nodes.length * (t - 1) / currentThreadCount);
