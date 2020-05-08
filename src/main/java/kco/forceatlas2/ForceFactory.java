@@ -53,7 +53,7 @@ import org.gephi.graph.api.Node;
  */
 public class ForceFactory {
 
-    public static ForceFactory builder = new ForceFactory();
+    public static final ForceFactory builder = new ForceFactory();
 
     private ForceFactory() {
     }
